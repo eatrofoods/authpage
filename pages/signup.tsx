@@ -13,7 +13,7 @@ import ModalOTP from "@/components/Enter_OTP_Modal";
 
 type FormControlElement = HTMLInputElement | HTMLTextAreaElement;
 
-export const formUseState = (): [
+export const useFormState = (): [
   string,
   (para: React.ChangeEvent<FormControlElement>) => void
 ] => {
@@ -31,10 +31,10 @@ const SignUP = () => {
   const [middleName, setmiddleName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
-  const [password, setpassword] = formUseState();
-  const [rePassword, setRepassword] = formUseState();
+  const [password, setpassword] = useFormState();
+  const [rePassword, setRepassword] = useFormState();
   const [errorMessage, setErrorMessage] = useState("");
-  const [otp, setOtp] = formUseState();
+  const [otp, setOtp] = useFormState();
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
@@ -61,7 +61,10 @@ const SignUP = () => {
       .then((response) => {
         if (response.data === "OK") router.push("/");
       })
-      .catch((error: AxiosError) => console.log("Error"))
+      .catch((error: AxiosError) => {
+        setErrorMessage("Some Error");
+        console.log(error);
+      })
       .finally(() => {
         setLoading(false);
       });
@@ -88,7 +91,7 @@ const SignUP = () => {
 
   return (
     <>
-      {errorMessage && <ErrorModal />}
+      {errorMessage && <ErrorModal errorMessage={errorMessage} />}
       {otpMode && (
         <ModalOTP
           otp={otp}

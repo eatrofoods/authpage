@@ -7,13 +7,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useRouter } from "next/router";
 import { IS_PRODUCTION, SpinnerLoader } from "./_app";
-import { formUseState } from "./signup";
+import { useFormState } from "./signup";
 import axios, { AxiosError } from "axios";
 import { ErrorModal } from "@/components/ErrorModal";
 
 const SignInPage = () => {
-  const [email, setEmail] = formUseState();
-  const [password, setPassword] = formUseState();
+  const [email, setEmail] = useFormState();
+  const [password, setPassword] = useFormState();
   const [spinner, setSpinner] = useState(false);
   const [userType, setUserType] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
