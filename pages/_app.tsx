@@ -28,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     axios.defaults.baseURL = IS_PRODUCTION
       ? "https://api.eatrofoods.com/"
-      : "http://192.168.43.48:5000/";
+      : `http://${process.env.development_url}:5000/`;
   }, []);
   return <Component {...pageProps} />;
 }

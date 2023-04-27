@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build && export",
+    "dev": "PORT=3001 next dev",
+    "build": "next build && next export",
     "start": "code . && npm run dev",
     "lint": "next lint"
   },

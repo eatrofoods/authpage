@@ -16,7 +16,7 @@ function ErrorModal(props: Props) {
       // size="lg"
       show={true}
       // onHide={handleClose}
-      backdrop={backdrop}
+      // backdrop={backdrop}
       keyboard={false}
     >
       {/* <Modal.Header closeButton>
