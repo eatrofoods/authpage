@@ -24,11 +24,7 @@ function ModalOTP(props: Props) {
     >
       <Modal.Body>
         <FloatingLabel controlId="floatingPassword" label="Enter OTP">
-          <FormControl
-            type="number"
-            placeholder="Enter OTP"
-            onChange={setOtp}
-          />
+          <FormControl type="text" placeholder="Enter OTP" onChange={setOtp} />
         </FloatingLabel>
       </Modal.Body>
       <Modal.Footer>

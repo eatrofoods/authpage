@@ -10,6 +10,7 @@ import { IS_PRODUCTION, SpinnerLoader } from "./_app";
 import { useFormState } from "./signup";
 import axios, { AxiosError } from "axios";
 import { ErrorModal } from "@/components/ErrorModal";
+import ResetPasswordModal from "@/components/ResetPassword_Modal";
 
 const SignInPage = () => {
   const [email, setEmail] = useFormState();
@@ -17,6 +18,10 @@ const SignInPage = () => {
   const [spinner, setSpinner] = useState(false);
   const [userType, setUserType] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [resetPasswordMode, setResetPasswordMode] = useState(false);
+  const [resetPasswordLoading, setResetPasswordLoading] = useState(false);
+
+  const router = useRouter();
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -49,12 +54,49 @@ const SignInPage = () => {
       .finally(() => setSpinner(false));
   };
 
-  const router = useRouter();
+  const resetPasswordModeOn = async () => {
+    if (!email) return alert("Please enter email address");
+    if (!userType) return alert("Manager or Owner");
+
+    setResetPasswordLoading(true);
+
+    axios
+      .post("auth/resetPasswordRequest", {
+        email,
+        userType,
+      })
+      .then((response) => {
+        if (response.data === "OK") {
+          alert("An otp is sent to your registered email address");
+
+          setResetPasswordMode(true);
+        }
+      })
+      .catch((error: AxiosError) => {
+        if (error.response?.statusText === "Not Found") {
+          alert(`${userType} email not found`);
+        } else {
+          alert("Some error");
+          console.log({ error });
+        }
+      })
+      .finally(() => {
+        setResetPasswordLoading(false);
+      });
+  };
 
   return (
     <>
       {spinner ? <SpinnerLoader /> : null}
       {errorMessage && <ErrorModal errorMessage={errorMessage} />}
+
+      {resetPasswordMode && (
+        <ResetPasswordModal
+          closeModal={setResetPasswordMode}
+          emailAddress={email}
+          userType={userType}
+        />
+      )}
 
       <Container fluid>
         <Row className="mt-4">
@@ -109,6 +151,17 @@ const SignInPage = () => {
                 <Col>
                   <Button variant="success" type="submit">
                     SignIn
+                  </Button>
+                </Col>
+                <Col>
+                  <Button
+                    variant="danger"
+                    onClick={
+                      !resetPasswordLoading ? resetPasswordModeOn : undefined
+                    }
+                    disabled={resetPasswordLoading}
+                  >
+                    {!resetPasswordLoading ? "Reset Password" : "Loading"}
                   </Button>
                 </Col>
                 <Col>
