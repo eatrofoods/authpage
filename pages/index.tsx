@@ -42,7 +42,7 @@ const SignInPage = () => {
       .then((response) => {
         if (response.data === "OK") {
           const redirectURL = IS_PRODUCTION
-            ? "https://app.eatrofoods.com"
+            ? "https://restaurant.eatrofoods.com"
             : `http://${process.env.development_url}:3002`;
           window.location.replace(redirectURL);
         }
